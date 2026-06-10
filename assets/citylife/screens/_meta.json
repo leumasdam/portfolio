@@ -1,0 +1,188 @@
+[
+ {
+  "id": "01",
+  "num": "01",
+  "title": "Splash",
+  "desc": "Brand load — “the city, scannable”."
+ },
+ {
+  "id": "02",
+  "num": "02",
+  "title": "Onboarding · 01",
+  "desc": "Discover what’s on right now."
+ },
+ {
+  "id": "03",
+  "num": "03",
+  "title": "Onboarding · 02",
+  "desc": "Scan any poster to unlock it."
+ },
+ {
+  "id": "04",
+  "num": "04",
+  "title": "Onboarding · 03",
+  "desc": "From mood to action in 3 taps."
+ },
+ {
+  "id": "05",
+  "num": "05",
+  "title": "Pick interests",
+  "desc": "Tune the feed to your taste."
+ },
+ {
+  "id": "06",
+  "num": "06",
+  "title": "Location",
+  "desc": "Find events around you."
+ },
+ {
+  "id": "07",
+  "num": "07",
+  "title": "Sign up",
+  "desc": "Join the city, or stay a guest."
+ },
+ {
+  "id": "08",
+  "num": "08",
+  "title": "Home feed",
+  "desc": "Living database — tonight, near you."
+ },
+ {
+  "id": "09",
+  "num": "09",
+  "title": "Swipe deck",
+  "desc": "Tinder-style — find tonight with your crew."
+ },
+ {
+  "id": "10",
+  "num": "10",
+  "title": "Explore",
+  "desc": "Categories & trending."
+ },
+ {
+  "id": "11",
+  "num": "11",
+  "title": "Map",
+  "desc": "Events around you, on a map."
+ },
+ {
+  "id": "12",
+  "num": "12",
+  "title": "AR view",
+  "desc": "Events floating over the street."
+ },
+ {
+  "id": "13",
+  "num": "13",
+  "title": "Search & filter",
+  "desc": "Find events, venues, artists."
+ },
+ {
+  "id": "14",
+  "num": "14",
+  "title": "Event detail",
+  "desc": "Time, place, price, lineup, map."
+ },
+ {
+  "id": "15",
+  "num": "15",
+  "title": "QR scanner",
+  "desc": "Point at a street poster."
+ },
+ {
+  "id": "16",
+  "num": "16",
+  "title": "Scan → unlocked",
+  "desc": "Poster recognised, event opens."
+ },
+ {
+  "id": "17",
+  "num": "17",
+  "title": "Checkout",
+  "desc": "Tickets, fees, pay with Apple Pay."
+ },
+ {
+  "id": "18",
+  "num": "18",
+  "title": "Entry pass",
+  "desc": "Scannable QR ticket for the door."
+ },
+ {
+  "id": "19",
+  "num": "19",
+  "title": "Wallet",
+  "desc": "Credits, passes, payment methods."
+ },
+ {
+  "id": "20",
+  "num": "20",
+  "title": "Your list",
+  "desc": "Interested vs going."
+ },
+ {
+  "id": "21",
+  "num": "21",
+  "title": "My passes",
+  "desc": "Upcoming entry passes."
+ },
+ {
+  "id": "22",
+  "num": "22",
+  "title": "Checked in",
+  "desc": "Welcome — you’re in."
+ },
+ {
+  "id": "23",
+  "num": "23",
+  "title": "Signals",
+  "desc": "FOMO alerts, tuned to you."
+ },
+ {
+  "id": "24",
+  "num": "24",
+  "title": "Organizer",
+  "desc": "Venue / promoter profile."
+ },
+ {
+  "id": "25",
+  "num": "25",
+  "title": "Create event",
+  "desc": "Publish + auto poster & QR."
+ },
+ {
+  "id": "26",
+  "num": "26",
+  "title": "Messages",
+  "desc": "Chats with venues & friends."
+ },
+ {
+  "id": "27",
+  "num": "27",
+  "title": "Chat",
+  "desc": "Talk to the organizer."
+ },
+ {
+  "id": "28",
+  "num": "28",
+  "title": "Editor’s collection",
+  "desc": "“Society is healing” picks."
+ },
+ {
+  "id": "29",
+  "num": "29",
+  "title": "Profile",
+  "desc": "Stats, badges, crew."
+ },
+ {
+  "id": "30",
+  "num": "30",
+  "title": "Crew",
+  "desc": "Who’s out tonight."
+ },
+ {
+  "id": "31",
+  "num": "31",
+  "title": "Settings",
+  "desc": "Account & preferences."
+ }
+]

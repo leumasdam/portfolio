@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>express.EMPIRIA Parťák — case study · Samuel</title>
+  <meta name="description" content="UX/UI case study: koncept mobilnej appky pre montérov a kúpeľne pod značkou express.EMPIRIA. Živý prototyp dvoch appiek." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ===== Empiria case — reference (litvanyi) form, scoped .ec ===== */
+    :root{ --navy:#192B37; --red:#D7282E; --sage:#AFC0BC; --sage-d:#5E726C; }
+    .ec{ max-width:1200px; margin-inline:auto; padding:0 var(--space-6) 80px; display:flex; flex-direction:column; gap:22px; }
+    .ec-back{ display:inline-flex; align-items:center; gap:8px; font-weight:600; color:var(--ink-soft); padding:18px 4px 6px; font-size:15px; }
+    .ec-back:hover{ color:var(--ink); }
+
+    .ec-card{ background:var(--bg-card); border-radius:var(--radius-card); padding:48px; }
+    .ec-split{ display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:center; }
+    .ec-eyebrow{ font-family:var(--font-mono); font-size:12px; letter-spacing:.5px; text-transform:uppercase; color:var(--ink-muted); }
+    .ec h1.ec-title{ font-size:clamp(40px,5vw,64px); font-weight:800; letter-spacing:-2px; line-height:1; margin:14px 0 0; }
+    .ec h2.ec-h{ font-size:clamp(26px,3vw,36px); font-weight:800; letter-spacing:-1px; line-height:1.1; }
+    .ec p.ec-p{ font-size:18px; line-height:1.65; color:var(--ink-soft); margin-top:16px; max-width:600px; }
+    .ec p.ec-lead{ font-size:19px; line-height:1.6; color:var(--ink-soft); margin-top:18px; }
+
+    .ec-meta{ display:flex; gap:34px; flex-wrap:wrap; margin-top:26px; }
+    .ec-meta small{ display:block; font-family:var(--font-mono); font-size:11px; letter-spacing:.4px; text-transform:uppercase; color:var(--ink-faint); margin-bottom:3px; }
+    .ec-meta b{ font-size:15px; font-weight:600; }
+    .ec-tags{ display:flex; flex-wrap:wrap; gap:9px; margin-top:22px; }
+    .ec-tags span{ font-size:13px; font-weight:500; padding:8px 15px; border-radius:9999px; background:#fff; border:1px solid var(--border-strong); }
+
+    /* hero visual: live prototype iframe */
+    .ec-hero-visual{ position:relative; }
+    .ec-live-pill{ position:absolute; top:-14px; right:-6px; z-index:3; display:inline-flex; align-items:center; gap:8px; background:#fff; box-shadow:var(--shadow-elevation-4); border-radius:9999px; padding:11px 18px; font-weight:600; font-size:14px; }
+    .ec-live-pill svg{ width:18px; height:18px; }
+    /* hero brand cover (static) */
+    .ec-cover{ position:relative; background:var(--navy); border-radius:28px; overflow:hidden; min-height:520px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px; box-shadow:var(--shadow-elevation-4); }
+    .ec-cover .cdash{ position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+    .ec-cover .cdash path{ fill:none; stroke:rgba(255,255,255,.14); stroke-width:3.5; stroke-dasharray:9 15; stroke-linecap:round; }
+    .ec-cover img.lg{ width:210px; position:relative; z-index:2; filter:brightness(0) invert(1); }
+    .ec-cover img.ms{ width:138px; margin-top:22px; position:relative; z-index:2; filter:brightness(0) invert(1); }
+    .ec-cover .ct{ color:#fff; font-weight:800; font-size:24px; letter-spacing:-.5px; margin-top:18px; position:relative; z-index:2; }
+    .ec-cover .cs{ color:#9DAAB1; font-size:13px; font-family:var(--font-mono); margin-top:6px; position:relative; z-index:2; }
+    /* live prototype section (centered, white, whole phone visible) */
+    .ec-livesec{ background:#fff; border:1px solid var(--border-strong); border-radius:var(--radius-card); padding:46px; text-align:center; }
+    .ec-liveframe{ display:flex; justify-content:center; margin-top:24px; }
+    .ec-liveframe iframe{ width:392px; height:800px; border:0; background:transparent; }
+    .ec-openlink{ display:inline-flex; align-items:center; gap:8px; margin-top:20px; font-weight:600; font-size:14px; color:var(--ink-soft); }
+    /* UI screens — small thumbnails + lightbox (iWinners style) */
+    .ec-appshow{ background:#0E1216; border-radius:var(--radius-card); padding:34px 30px; }
+    .ec-appshow + .ec-appshow{ margin-top:18px; }
+    .ec-appshow h3{ color:#fff; font-size:22px; font-weight:800; letter-spacing:-.5px; margin-bottom:4px; }
+    .ec-appshow .sub2{ color:#7e8b94; font-size:13px; font-family:var(--font-mono); margin-bottom:22px; }
+    .ec-shots{ display:grid; grid-template-columns:repeat(6,1fr); gap:16px; }
+    .ec-shot{ cursor:pointer; }
+    .ec-shot img{ width:100%; display:block; filter:drop-shadow(0 12px 22px rgba(0,0,0,.45)); transition:transform .2s; border-radius:10px; }
+    .ec-shot:hover img{ transform:translateY(-5px); }
+    .ec-shot span{ display:block; text-align:center; font-size:10px; color:#8b97a0; margin-top:9px; }
+    /* lightbox */
+    .ec-lb{ position:fixed; inset:0; z-index:200; background:rgba(9,12,15,.94); backdrop-filter:blur(10px); display:none; align-items:center; justify-content:center; flex-direction:column; padding:40px 20px; }
+    .ec-lb.open{ display:flex; }
+    .ec-lb .big{ max-height:70vh; filter:drop-shadow(0 30px 60px rgba(0,0,0,.6)); }
+    .ec-lb .cap{ color:#fff; margin-top:18px; text-align:center; max-width:520px; }
+    .ec-lb .cap b{ font-size:18px; display:block; letter-spacing:-.3px; }
+    .ec-lb .cap span{ color:#9aa6ae; font-size:14px; }
+    .ec-lb .x{ position:absolute; top:22px; right:26px; width:46px; height:46px; border-radius:50%; background:rgba(255,255,255,.12); color:#fff; border:0; font-size:20px; cursor:pointer; }
+    .ec-lb .arr{ position:absolute; top:50%; transform:translateY(-50%); width:52px; height:52px; border-radius:50%; background:rgba(255,255,255,.12); color:#fff; border:0; font-size:22px; cursor:pointer; }
+    .ec-lb .arr:hover, .ec-lb .x:hover{ background:rgba(255,255,255,.22); }
+    .ec-lb .prev{ left:24px; } .ec-lb .next{ right:24px; }
+    .ec-lb .strip{ display:flex; gap:8px; margin-top:22px; max-width:92vw; overflow-x:auto; padding:6px; }
+    .ec-lb .strip img{ height:62px; border-radius:7px; cursor:pointer; opacity:.45; transition:.2s; flex:none; background:#1a2026; }
+    .ec-lb .strip img.on{ opacity:1; outline:2px solid var(--red); }
+    @media (max-width:880px){ .ec-liveframe iframe{ width:100%; max-width:392px; } .ec-shots{ grid-template-columns:repeat(3,1fr); } .ec-lb .arr{ display:none; } }
+
+    /* showcase — dark section with poster cards */
+    .ec-showcase{ border-radius:var(--radius-card); padding:30px; }
+    .ec-showcase--navy{ background:var(--navy); }
+    .ec-showcase--sage{ background:#2b3b41; }
+    .ec-posters{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .ec-poster{ position:relative; border-radius:20px; overflow:hidden; aspect-ratio:4/3.1; box-shadow:0 18px 40px -22px rgba(0,0,0,.6); }
+    .ec-poster img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+    .ec-poster::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(25,43,55,.15),rgba(25,43,55,.88)); }
+    .ec-poster .bar{ position:absolute; top:13px; left:14px; display:flex; gap:5px; z-index:2; }
+    .ec-poster .bar i{ width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.5); }
+    .ec-poster .pt{ position:absolute; left:18px; right:18px; bottom:16px; z-index:2; color:#fff; }
+    .ec-poster .pt small{ font-family:var(--font-mono); font-size:10.5px; letter-spacing:.4px; color:#FF9CA0; }
+    .ec-poster .pt b{ display:block; font-size:19px; font-weight:800; letter-spacing:-.4px; line-height:1.12; margin-top:5px; }
+    .ec-showcase__cap{ color:rgba(255,255,255,.6); font-size:13px; font-family:var(--font-mono); margin:0 0 16px 4px; }
+
+    /* moodboard */
+    .ec-mood{ display:grid; grid-template-columns:1.2fr 1fr; grid-template-rows:auto auto; gap:12px; }
+    .ec-mood .claim{ background:var(--navy); color:#fff; border-radius:16px; padding:20px; font-weight:800; font-size:18px; line-height:1.25; grid-row:span 2; display:flex; flex-direction:column; justify-content:space-between; }
+    .ec-mood .claim small{ font-family:var(--font-mono); font-size:10px; color:#9DAAB1; font-weight:500; }
+    .ec-mood img{ border-radius:16px; width:100%; height:100%; object-fit:cover; min-height:96px; }
+    .ec-mood .sw{ grid-column:span 2; display:flex; gap:8px; }
+    .ec-mood .sw i{ flex:1; height:34px; border-radius:8px; }
+
+    /* pull quote with dashed connectors */
+    .ec-quote{ text-align:center; padding:8px 0; display:flex; flex-direction:column; align-items:center; gap:22px; }
+    .ec-quote .dline{ width:2px; height:64px; background:repeating-linear-gradient(var(--ink-faint) 0 5px, transparent 5px 11px); }
+    .ec-quote q{ font-style:italic; font-weight:800; font-size:clamp(24px,3.2vw,38px); letter-spacing:-.6px; line-height:1.32; max-width:760px; quotes:none; }
+    .ec-quote q b{ color:var(--red); }
+
+    /* flywheel strip */
+    .ec-fly{ background:var(--navy); border-radius:var(--radius-card); padding:34px 30px; color:#fff; }
+    .ec-fly h3{ font-size:20px; font-weight:800; letter-spacing:-.4px; }
+    .ec-fly .steps{ display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:20px; }
+    .ec-fly .st{ background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:14px; padding:15px 13px; }
+    .ec-fly .st .n{ width:28px; height:28px; border-radius:8px; background:var(--red); color:#fff; font-weight:800; display:grid; place-items:center; font-size:13px; margin-bottom:10px; }
+    .ec-fly .st b{ font-size:13px; display:block; line-height:1.25; }
+    .ec-fly .st small{ font-size:11px; color:#9DAAB1; }
+
+    /* mono principle pills */
+    .ec-principles{ display:flex; flex-direction:column; gap:11px; }
+    .ec-principles .pp{ background:var(--navy); color:#fff; border-radius:12px; padding:14px 17px; font-family:var(--font-mono); font-size:13px; }
+    .ec-principles .pp .dim{ color:#7C8B94; }
+    .ec-principles .pp .hl{ background:var(--red); color:#fff; padding:1px 6px; border-radius:5px; }
+
+    /* result — donut card */
+    .ec-result{ background:#fff; border-radius:20px; padding:26px; box-shadow:var(--shadow-card); }
+    .ec-result__head{ font-size:13px; font-weight:700; color:var(--ink-soft); margin-bottom:18px; }
+    .ec-donut{ width:158px; height:158px; border-radius:50%; margin:0 auto 22px; position:relative; background:conic-gradient(#D7282E 0 35%, #E8794B 35% 60%, #3E5C6B 60% 80%, #AFC0BC 80% 100%); }
+    .ec-donut::before{ content:""; position:absolute; inset:32px; border-radius:50%; background:#fff; }
+    .ec-donut::after{ content:"deň\A montéra"; white-space:pre; position:absolute; inset:0; display:grid; place-items:center; font-size:12px; font-weight:700; color:var(--ink-muted); text-align:center; line-height:1.3; }
+    .ec-legend{ display:flex; flex-direction:column; gap:11px; }
+    .ec-legend div{ display:flex; align-items:center; gap:10px; font-size:13.5px; }
+    .ec-legend i{ width:12px; height:12px; border-radius:3px; flex:none; }
+    .ec-legend b{ margin-left:auto; font-weight:700; }
+    .ec-result__note{ font-size:12.5px; color:var(--ink-muted); margin-top:16px; line-height:1.55; padding-top:14px; border-top:1px solid var(--line); }
+    /* design system mini-kit panel */
+    .ec-ds{ background:#0E1216; border-radius:24px; padding:26px; display:grid; gap:14px; }
+    .ec-ds .row{ display:flex; gap:10px; align-items:center; }
+    .ec-ds .sw{ display:flex; gap:8px; } .ec-ds .sw i{ width:38px; height:38px; border-radius:10px; }
+    .ec-ds .slot{ flex:1; border:1.5px dashed rgba(255,255,255,.25); border-radius:10px; padding:11px; text-align:center; color:#7e8b94; font-family:var(--font-mono); font-size:11px; }
+    .ec-ds .aa{ background:#fff; color:var(--navy); border-radius:12px; padding:14px 18px; font-weight:900; font-size:26px; letter-spacing:-1px; }
+    .ec-ds .aa small{ display:block; font-size:10px; font-weight:600; color:var(--ink-muted); letter-spacing:0; }
+    .ec-ds .chiprow{ display:flex; gap:8px; flex-wrap:wrap; }
+    .ec-ds .b{ border:0; font-family:inherit; font-weight:800; font-size:12.5px; border-radius:10px; padding:10px 16px; }
+    .ec-ds .b.red{ background:#D7282E; color:#fff; } .ec-ds .b.navy{ background:#22343F; color:#fff; }
+    .ec-ds .pl{ font-size:11px; font-weight:800; padding:6px 11px; border-radius:20px; background:rgba(255,255,255,.1); color:#cfd7db; }
+    .ec-ds .card{ background:#161B20; border-radius:14px; padding:13px; display:flex; align-items:center; gap:11px; color:#fff; }
+    .ec-ds .card img{ width:38px; height:38px; border-radius:10px; object-fit:cover; }
+    .ec-ds .card b{ font-size:13px; } .ec-ds .card small{ font-size:11px; color:#8b97a0; display:block; }
+
+    /* official brand manual */
+    @font-face{ font-family:'EmpiriaBrand'; src:url('assets/empiria/Empiria.ttf') format('truetype'); font-display:swap; }
+    .ec-bm{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:26px; }
+    .bm-card{ background:var(--bg-page); border:1px solid var(--border-strong); border-radius:18px; padding:22px; }
+    .bm-wordmark{ font-family:'EmpiriaBrand','Outfit',sans-serif; font-weight:700; font-size:36px; color:#ED1C24; letter-spacing:1px; line-height:1; }
+    .bm-label{ font-size:12px; color:var(--ink-soft); margin-top:16px; line-height:1.55; } .bm-label .dim{ color:var(--ink-muted); }
+    .bm-h{ font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.5px; color:var(--ink-muted); margin-bottom:15px; }
+    .bm-colors{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .bm-colors div{ display:flex; flex-direction:column; gap:5px; } .bm-colors i{ height:40px; border-radius:9px; } .bm-colors b{ font-family:var(--font-mono); font-size:12px; } .bm-colors small{ font-family:var(--font-mono); font-size:10px; color:var(--ink-muted); }
+    .bm-pins{ display:flex; gap:12px; }
+    .bm-pins .pin{ display:flex; flex-direction:column; align-items:center; gap:9px; flex:1; }
+    .bm-pins .pn{ width:46px; height:46px; border-radius:50%; background:var(--c); display:grid; place-items:center; color:#fff; font-weight:900; font-size:21px; box-shadow:var(--shadow-card); }
+    .bm-pins small{ font-size:11px; font-weight:700; }
+    .bm-rules{ display:flex; flex-direction:column; gap:11px; }
+    .bm-rules div{ display:flex; align-items:center; gap:10px; font-size:12.5px; color:var(--ink-soft); }
+    .bm-rules .lg{ font-family:'EmpiriaBrand','Outfit',sans-serif; font-weight:700; font-size:13px; padding:5px 9px; border-radius:6px; letter-spacing:.3px; }
+    .bm-rules .no{ color:var(--ink-muted); }
+    @media(max-width:880px){ .ec-bm{ grid-template-columns:1fr 1fr; } }
+
+    /* TL;DR */
+    .ec-tldr{ background:var(--navy); border-radius:var(--radius-card); padding:42px 48px; color:#fff; }
+    .ec-tldr .lbl{ font-family:var(--font-mono); font-size:11px; letter-spacing:3px; color:#9DAAB1; }
+    .ec-tldr ul{ list-style:none; margin-top:22px; display:flex; flex-direction:column; gap:16px; }
+    .ec-tldr li{ font-size:18px; font-weight:600; display:flex; gap:14px; align-items:baseline; }
+    .ec-tldr li::before{ content:"→"; color:var(--red); font-weight:800; }
+
+    /* next */
+    .ec-next{ display:flex; justify-content:space-between; align-items:center; background:var(--bg-card); border-radius:var(--radius-card); padding:30px 40px; }
+    .ec-next small{ font-family:var(--font-mono); font-size:11px; letter-spacing:.5px; text-transform:uppercase; color:var(--ink-muted); }
+    .ec-next b{ font-size:24px; font-weight:800; letter-spacing:-.6px; }
+    .ec-next .ar{ font-size:26px; }
+
+    @media (max-width:880px){
+      .ec-card{ padding:30px; }
+      .ec-split,.ec-mood{ grid-template-columns:1fr; }
+      .ec-mood .claim{ grid-row:auto; }
+      .ec-posters,.ec-fly .steps{ grid-template-columns:1fr; }
+      .ec-fly .steps{ grid-template-columns:1fr 1fr; }
+      .ec-frame iframe{ width:100%; max-width:340px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER (same chrome as site) -->
+  <header class="header">
+    <div class="header__left">
+      <a href="index.html" class="header__logo" aria-label="Domov"><span class="header__mark">S<span>.</span></span></a>
+      <div class="header__identity">
+        <span class="header__name">Samuel</span>
+        <span class="header__meta"><span class="header__meta-text">grafický dizajnér &amp; UI</span></span>
+      </div>
+    </div>
+    <nav class="header__nav" aria-label="Hlavná navigácia">
+      <a class="navpill" href="index.html">Úvod</a>
+      <a class="navpill is-active" href="index.html">Portfólio</a>
+      <a class="navpill" href="index.html">Kontakt</a>
+    </nav>
+    <div class="header__right">
+      <span class="header__lang"><button class="pill is-active">SK</button><button class="pill">EN</button></span>
+    </div>
+  </header>
+
+  <main class="ec">
+    <a class="ec-back" href="index.html">‹ Späť na projekty</a>
+
+    <!-- ===== HERO ===== -->
+    <section class="ec-card ec-split">
+      <div>
+        <span class="ec-eyebrow">Mobilná aplikácia · koncept</span>
+        <h1 class="ec-title">express.<br>EMPIRIA Parťák</h1>
+        <p class="ec-p">Koncept appky pre B2B veľkoobchod empiria.sk — montér naskenuje kotol, nájde diel, vidí živý sklad predajní a zákazky z Empiria siete. Dve appky, jeden flywheel.</p>
+        <div class="ec-meta">
+          <div><small>Obdobie</small><b>2026</b></div>
+          <div><small>Rola</small><b>UX · UI · prototyp</b></div>
+          <div><small>Autor</small><b>Samuel</b></div>
+        </div>
+        <div class="ec-tags"><span>ux/ui</span><span>brand identity</span><span>mobile app</span><span>prototyp</span><span>marketplace</span></div>
+      </div>
+      <div class="ec-hero-visual">
+        <a class="ec-live-pill" href="https://leumasdam.github.io/empiria-app/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8.25" stroke="currentColor" stroke-width="1.5"/><path d="M1.75 10h16.5M10 1.75c2.5 2.4 2.5 13.85 0 16.5M10 1.75c-2.5 2.4-2.5 13.85 0 16.5" stroke="currentColor" stroke-width="1.5"/></svg>
+          Pozrieť naživo
+        </a>
+        <div class="ec-cover">
+          <div class="cdash"><svg viewBox="0 0 480 520" preserveAspectRatio="none"><path d="M0,150 C25,140 72,172 122,208 C176,246 206,282 244,283 C302,285 346,250 400,200 C436,167 458,145 480,124"/></svg></div>
+          <img class="lg" src="assets/empiria/logo-stacked.png" alt="express.EMPIRIA">
+          <img class="ms" src="assets/empiria/mascot.png" alt="">
+          <div class="ct">Parťák</div>
+          <div class="cs">samoobslužné predajne · pre montérov</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SHOWCASE 1 — Parťák ===== -->
+    <section class="ec-showcase ec-showcase--navy">
+      <p class="ec-showcase__cap">App 1 — Parťák · pre montéra</p>
+      <div class="ec-posters">
+        <div class="ec-poster"><span class="bar"><i></i><i></i><i></i></span><img src="assets/empiria/heatpump.jpg" alt=""><div class="pt"><small>SKENUJ &amp; NÁJDI</small><b>Odfoť kotol,<br>nájdi náhradu</b></div></div>
+        <div class="ec-poster"><span class="bar"><i></i><i></i><i></i></span><img src="assets/empiria/map-express.png" alt=""><div class="pt"><small>ŽIVÝ SKLAD</small><b>17 predajní,<br>semafor zásob</b></div></div>
+        <div class="ec-poster"><span class="bar"><i></i><i></i><i></i></span><img src="assets/empiria/store-interior.jpg" alt=""><div class="pt"><small>ZÁKAZKY</small><b>Leady z Empiria<br>siete</b></div></div>
+      </div>
+    </section>
+
+    <!-- ===== KONTEXT ===== -->
+    <section class="ec-card ec-split">
+      <div>
+        <h2 class="ec-h">Kontext</h2>
+        <p class="ec-p">Empiria je rodinný B2B veľkoobchod (voda, kúrenie, plyn, sanita) s 17 predajňami a vlastným maskotom-inštalatérom. Web aj eshop riešia objednávku — ale rozhodnutie padá na stavbe, v ruke montéra, kde Empiria dnes nie je.</p>
+        <p class="ec-p">Vychádzal som z reálnej identity z firemného archívu: tri divízie (veľkoobchod, express, kúpeľne), prerezané „A" v logu, maskot a motív prerušovanej čiary — nič vymyslené.</p>
+      </div>
+      <div class="ec-mood">
+        <div class="claim">Remeslo má svojho parťáka.<small>express.EMPIRIA · navy + červená</small></div>
+        <img src="assets/empiria/staff.jpg" alt="">
+        <img src="assets/empiria/mascot.png" alt="" style="background:var(--navy);padding:14px;object-fit:contain;filter:brightness(0) invert(1)">
+        <div class="sw"><i style="background:#192B37"></i><i style="background:#D7282E"></i><i style="background:#AFC0BC"></i><i style="background:#F1F4F6;border:1px solid var(--border-strong)"></i></div>
+      </div>
+    </section>
+
+    <!-- ===== PULL QUOTE ===== -->
+    <section class="ec-quote">
+      <span class="dline"></span>
+      <q>Rozhodnutie nepadá za počítačom. Padá <b>na stavbe, v ruke montéra</b> — a appka tam musí byť skôr, než otočí auto.</q>
+      <span class="dline"></span>
+    </section>
+
+    <!-- ===== FLYWHEEL ===== -->
+    <section class="ec-fly">
+      <h3>Stratégia: jeden flywheel</h3>
+      <div class="steps">
+        <div class="st"><div class="n">1</div><b>Empiria pošle lead</b><small>investor hľadá montéra</small></div>
+        <div class="st"><div class="n">2</div><b>Montér má prácu</b><small>prijme zákazku</small></div>
+        <div class="st"><div class="n">3</div><b>Nakúpi materiál</b><small>u Empirie</small></div>
+        <div class="st"><div class="n">4</div><b>Vyšší level</b><small>obrat = vernostka</small></div>
+        <div class="st"><div class="n">5</div><b>Prednostné leady</b><small>a kruh sa točí ↻</small></div>
+      </div>
+    </section>
+
+    <!-- ===== LIVE PROTOTYP (centered, white) ===== -->
+    <section class="ec-livesec">
+      <span class="ec-eyebrow">Živý prototyp</span>
+      <h2 class="ec-h" style="margin-top:10px">Vyskúšaj si obe appky naživo</h2>
+      <p class="ec-p" style="margin:14px auto 0">Interaktívny — hore prepni <b>Parťák ↔ Kúpeľne</b> a klikaj. Beží naživo z GitHubu, celý telefón naraz, bez scrollovania.</p>
+      <div class="ec-liveframe">
+        <iframe src="https://leumasdam.github.io/empiria-app/?embed=1" title="Živý prototyp express.EMPIRIA" loading="lazy" allow="fullscreen"></iframe>
+      </div>
+      <a class="ec-openlink" href="https://leumasdam.github.io/empiria-app/" target="_blank" rel="noopener">Otvoriť v novom okne →</a>
+    </section>
+
+    <!-- ===== UI OBRAZOVKY (thumbnails + lightbox) ===== -->
+    <section>
+      <div style="padding:0 4px;margin-bottom:22px">
+        <span class="ec-eyebrow">UI — obrazovky</span>
+        <h2 class="ec-h" style="margin-top:10px">Obrazovky appky</h2>
+        <p class="ec-p" style="margin-top:14px">Ťukni na ktorúkoľvek obrazovku a otvorí sa vo väčšom. Celý interaktívny prototyp si vieš vyskúšať vyššie.</p>
+      </div>
+      <div class="ec-appshow"><h3>express.EMPIRIA Parťák</h3><div class="sub2">app pre montéra</div><div class="ec-shots" id="shots-partak"></div></div>
+      <div class="ec-appshow"><h3>kúpeľne.EMPIRIA</h3><div class="sub2">app pre investora</div><div class="ec-shots" id="shots-kupelne"></div></div>
+    </section>
+
+    <!-- lightbox -->
+    <div class="ec-lb" id="lb">
+      <button class="x" id="lb-x" aria-label="Zavrieť">✕</button>
+      <button class="arr prev" id="lb-prev" aria-label="Predošlá">‹</button>
+      <img class="big" id="lb-img" src="" alt="">
+      <button class="arr next" id="lb-next" aria-label="Ďalšia">›</button>
+      <div class="cap"><b id="lb-title"></b><span id="lb-cap"></span></div>
+      <div class="strip" id="lb-strip"></div>
+    </div>
+
+    <!-- ===== DIZAJN & IMPLEMENTÁCIA ===== -->
+    <section class="ec-card ec-split">
+      <div class="ec-principles">
+        <div class="pp"><span class="dim">1.</span> Reálna identita <span class="hl">express.EMPIRIA</span></div>
+        <div class="pp"><span class="dim">2.</span> Maskot ako sprievodca</div>
+        <div class="pp"><span class="dim">3.</span> Prerušovaná čiara <span class="dim">len na pozadí</span></div>
+        <div class="pp"><span class="dim">4.</span> Svetlé telo + navy brand momenty</div>
+        <div class="pp"><span class="dim">5.</span> Reálne fotky, <span class="dim">nie stock</span></div>
+      </div>
+      <div>
+        <h2 class="ec-h">Dizajn &amp; implementácia</h2>
+        <p class="ec-p">Telo appky je svetlé a prehľadné (service-app pattern), brand momenty — hero, header, promo, mapa — sú navy s maskotom. CTA červené. Splash má „Bistro" zoom-reveal animáciu s bielym prechodom.</p>
+        <p class="ec-p">Postavené ako statické HTML/CSS/JS s View Transitions API a CSS animáciami. Dva kompletné toky (montér + kúpeľne) s 16 obrazovkami a živým prepínačom appiek.</p>
+      </div>
+    </section>
+
+    <!-- ===== DIZAJNOVÝ SYSTÉM ===== -->
+    <section class="ec-card ec-split">
+      <div class="ec-ds">
+        <div class="row sw"><i style="background:#192B37"></i><i style="background:#D7282E"></i><i style="background:#AFC0BC"></i><i style="background:#F1F4F6"></i><div class="slot">component slot</div></div>
+        <div class="row"><div class="aa">Aa<small>Antique Olive → Inter (web)</small></div><img src="assets/empiria/mascot.png" alt="" style="height:66px;filter:brightness(0) invert(1)"></div>
+        <div class="card"><img src="assets/empiria/staff.jpg" alt=""><div><b>Tomáš · predajca</b><small>express.EMPIRIA Žilina</small></div></div>
+        <div class="chiprow"><button class="b red">CTA</button><button class="b navy">Sekundárne</button><span class="pl">⚡ Level 4</span><span class="pl">● Skladom</span></div>
+      </div>
+      <div>
+        <h2 class="ec-h">Dizajnový systém</h2>
+        <p class="ec-p">Pre konzistenciu naprieč dvoma appkami (Parťák + Kúpeľne) som postavil zdieľaný systém priamo z oficiálneho dizajn manuálu: tri divízne farby (PANTONE 303 C antracit, 185 C EMPIRIA červená, 441 C šalviová), brand font Antique Olive (na webe substituovaný Interom), maskot a motív prerušovanej čiary.</p>
+        <p class="ec-p">Farby, typografia, komponenty — karty, čipy, tlačidlá, navigácia — aj fotografický štýl sú jednotné a pripravené na handoff. Detail v <a href="https://leumasdam.github.io/empiria-app/brand.html" target="_blank" rel="noopener">Brand &amp; UI kite</a>.</p>
+      </div>
+    </section>
+
+    <!-- ===== OFICIÁLNY BRAND MANUÁL ===== -->
+    <section class="ec-card">
+      <span class="ec-eyebrow">Z oficiálneho EMPIRIA dizajn manuálu</span>
+      <h2 class="ec-h" style="margin-top:10px">Postavené na reálnej značke, nie na výmysle</h2>
+      <p class="ec-p" style="max-width:700px">Identita appky nestojí na vymyslenom bránde — vychádza priamo z oficiálneho EMPIRIA dizajn manuálu: PANTONE farby, firemný font, pin systém troch divízií a logo pravidlá.</p>
+      <div class="ec-bm">
+        <div class="bm-card">
+          <div class="bm-wordmark">EMPIRIA</div>
+          <div class="bm-label">Firemný font: <b>Antique Olive Regular</b><br><span class="dim">web build appky: Inter (substitút)</span></div>
+        </div>
+        <div class="bm-card">
+          <div class="bm-h">Farby · PANTONE</div>
+          <div class="bm-colors">
+            <div><i style="background:#ED1C24"></i><b>185 C</b><small>237·28·36</small></div>
+            <div><i style="background:#42575C"></i><b>303 C</b><small>66·87·92</small></div>
+            <div><i style="background:#DFE8EA"></i><b>441 C</b><small>223·232·234</small></div>
+            <div><i style="background:#fff;border:1px solid var(--border-strong)"></i><b>000 C</b><small>biela</small></div>
+          </div>
+        </div>
+        <div class="bm-card">
+          <div class="bm-h">Pin systém · 3 divízie</div>
+          <div class="bm-pins">
+            <div class="pin"><span class="pn" style="--c:#ED1C24">E</span><small>veľkoobchod.</small></div>
+            <div class="pin"><span class="pn" style="--c:#42575C">E</span><small>express.</small></div>
+            <div class="pin"><span class="pn" style="--c:#DFE8EA;color:#42575C">E</span><small>kúpeľne.</small></div>
+          </div>
+        </div>
+        <div class="bm-card">
+          <div class="bm-h">Logo pravidlá</div>
+          <div class="bm-rules">
+            <div><span class="lg" style="background:#fff;color:#ED1C24;border:1px solid var(--border-strong)">EMPIRIA</span> červené na svetlom ✓</div>
+            <div><span class="lg" style="background:#ED1C24;color:#fff">EMPIRIA</span> biele na červenom ✓</div>
+            <div class="no"><span class="lg" style="background:#42575C;color:#ED1C24">EMPIRIA</span> antracit podklad ✗</div>
+          </div>
+        </div>
+      </div>
+      <p class="ec-p" style="max-width:780px;margin-top:22px">Brand motívy z manuálu — <b>„E" roundel</b>, <b>„Srdce EMPIRIA"</b> (srdce poskladané z produktových ikon kúrenia a sanity), <b>prerušovaná čiara</b> a <b>maskot-inštalatér</b> — som premietol do hero momentov, navigácie a splash animácie appky. Navádzacie tabule v manuáli (červený podklad + biele logo + šípka) inšpirovali mapový/„sklad pri tebe" pattern.</p>
+    </section>
+
+    <!-- ===== SHOWCASE 2 — Kúpeľne ===== -->
+    <section class="ec-showcase ec-showcase--sage">
+      <p class="ec-showcase__cap">App 2 — Kúpeľne · pre investora</p>
+      <div class="ec-posters">
+        <div class="ec-poster"><span class="bar"><i></i><i></i><i></i></span><img src="assets/empiria/bathroom.jpg" alt=""><div class="pt"><small>NÁVRH</small><b>Navrhni si<br>kúpeľňu</b></div></div>
+        <div class="ec-poster"><span class="bar"><i></i><i></i><i></i></span><img src="assets/empiria/divisions.png" alt="" style="object-fit:contain;background:#fff"><div class="pt"><small>AR</small><b>Skús ju<br>v priestore</b></div></div>
+        <div class="ec-poster"><span class="bar"><i></i><i></i><i></i></span><img src="assets/empiria/staff.jpg" alt=""><div class="pt"><small>MARKETPLACE</small><b>Nájdi overeného<br>montéra</b></div></div>
+      </div>
+    </section>
+
+    <!-- ===== VÝSLEDOK ===== -->
+    <section class="ec-card ec-split">
+      <div>
+        <h2 class="ec-h">Výsledok</h2>
+        <p class="ec-p">Najdrahší čas montérovho dňa nepadne na samotnú prácu — padne na <b>hľadanie, telefonáty, cesty a papierovačku</b>. Parťák každé z týchto trení rieši jednou obrazovkou.</p>
+        <p class="ec-p">Hmatateľný výstup: <b>18 obrazoviek</b> v dvoch appkách, živý klikací prototyp, board pre Figmu a brand kit — a obojstranný marketplace, ktorý z veľkoobchodu robí platformu.</p>
+      </div>
+      <div class="ec-result">
+        <div class="ec-result__head">Kde montérovi v dni vznikajú straty</div>
+        <div class="ec-donut"></div>
+        <div class="ec-legend">
+          <div><i style="background:#D7282E"></i>Hľadanie správneho dielu<b>35 %</b></div>
+          <div><i style="background:#E8794B"></i>Telefonáty „máte skladom?"<b>25 %</b></div>
+          <div><i style="background:#3E5C6B"></i>Cesty navyše<b>20 %</b></div>
+          <div><i style="background:#AFC0BC"></i>Papierovačka &amp; ponuky<b>20 %</b></div>
+        </div>
+        <p class="ec-result__note">Všetky štyri trenia appka adresuje priamo: <b>sken</b> → <b>živý sklad</b> → <b>rezervácia</b> → <b>cenová ponuka</b>. To je celý zmysel Parťáka.</p>
+      </div>
+    </section>
+
+    <!-- ===== TL;DR ===== -->
+    <section class="ec-tldr">
+      <span class="lbl">TL;DR</span>
+      <ul>
+        <li>Koncept appky pre montérov aj kúpeľne — na reálnej identite express.EMPIRIA.</li>
+        <li>Obojstranný marketplace „nájdi montážnika ↔ leady" žení predaj materiálu.</li>
+        <li>16 obrazoviek, živý prototyp s prepínačom appiek a splash animáciou.</li>
+        <li>Statický HTML/CSS/JS stack, nasadené na GitHub Pages — bez backendu.</li>
+      </ul>
+    </section>
+
+    <!-- ===== NEXT ===== -->
+    <a class="ec-next" href="index.html">
+      <div><small>Späť na</small><br><b>Všetky projekty</b></div>
+      <span class="ar">→</span>
+    </a>
+  </main>
+
+  <footer class="page-footer">
+    <div class="page-footer__left">
+      <span class="page-footer__copyright">© <span id="year">2026</span> Samuel</span>
+      <span class="page-footer__info"><span class="page-footer__badge">K dispozícii</span><span class="page-footer__divider">·</span><span>Remote-first</span><span class="page-footer__divider">·</span><span>Bratislava</span></span>
+    </div>
+    <div class="page-footer__center"><span class="page-footer__message">Navrhnuté a postavené vlastnoručne. ✌️</span></div>
+    <div class="page-footer__right"><a href="mailto:damnwern@gmail.com" class="page-footer__link">damnwern@gmail.com</a></div>
+  </footer>
+
+  <script>
+    const SHOTS = [
+      { f:'home',    t:'Domov',             c:'Hľadanie, kategórie z reálnych fotiek, sklad pri tebe.' },
+      { f:'scan',    t:'Skenuj & nájdi',    c:'Foto kotla → appka rozpozná model a vyhodí kompatibilnú náhradu.' },
+      { f:'stock',   t:'Sklad pri tebe',    c:'Reálna mapa 17 predajní so semaforom dostupnosti.' },
+      { f:'leady',   t:'Zákazky / Leady',   c:'Leady z Empiria siete. Level 4 = vidíš ich ako prvý.' },
+      { f:'lead',    t:'Detail zákazky',    c:'Prijať/odmietnuť. Materiál cez Empiriu = predaj.' },
+      { f:'proj',    t:'Stavba',            c:'Súpis materiálu, stav a cenová ponuka pre investora.' },
+      { f:'quote',   t:'Cenová ponuka',     c:'Branded dokument pre investora jedným klikom.' },
+      { f:'config',  t:'Konfigurátor TČ',   c:'Pár otázok → návrh tepelného čerpadla a zoznam dielov.' },
+      { f:'profile', t:'Profil / vernostka',c:'Level, body a výhody — „skúsenosti" držia montéra pri značke.' },
+      { f:'cart',    t:'Rezervácia',        c:'Vyzdvihnutie v Express predajni do 15 minút.' },
+      { f:'confirm', t:'Potvrdenie',        c:'Rezervované — pripravené na pobočke s číslom objednávky.' },
+      { f:'notif',   t:'Notifikácie',       c:'Diel naskladnený, nový lead, objednávka pripravená.' },
+      { f:'k-home',     t:'Kúpeľne — Domov',  c:'Showroom, kolekcie a reálne značky (Grohe, Duravit…).' },
+      { f:'k-ar',       t:'AR — skús kúpeľňu',c:'Zariadenie v reálnom priestore cez kameru.' },
+      { f:'k-product',  t:'Detail produktu',  c:'Skús v AR, pridaj do návrhu.' },
+      { f:'k-booking',  t:'Rezervácia v štúdiu',c:'15 štúdií + VR kútik.' },
+      { f:'k-find',     t:'Nájdi montážnika', c:'Overení Empiria partneri v okolí — lead späť do Parťáka.' },
+      { f:'k-installer',t:'Profil partnera',  c:'Hodnotenie, realizácie, portfólio, vyžiadať ponuku.' },
+    ];
+    const SPLIT = 12;
+    const thumb = (s,i) => `<div class="ec-shot" data-i="${i}"><img src="assets/empiria/screens/${s.f}.png" alt="${s.t}" loading="lazy"><span>${s.t}</span></div>`;
+    document.getElementById('shots-partak').innerHTML = SHOTS.slice(0,SPLIT).map((s,i)=>thumb(s,i)).join('');
+    document.getElementById('shots-kupelne').innerHTML = SHOTS.slice(SPLIT).map((s,i)=>thumb(s,i+SPLIT)).join('');
+    const lb=document.getElementById('lb'), lbImg=document.getElementById('lb-img'), lbT=document.getElementById('lb-title'), lbC=document.getElementById('lb-cap'), strip=document.getElementById('lb-strip');
+    let cur=0;
+    strip.innerHTML = SHOTS.map((s,i)=>`<img src="assets/empiria/screens/${s.f}.png" data-i="${i}" alt="${s.t}">`).join('');
+    function openLB(i){ cur=i; const s=SHOTS[i]; lbImg.src='assets/empiria/screens/'+s.f+'.png'; lbT.textContent=s.t; lbC.textContent=s.c; [...strip.children].forEach((c,j)=>c.classList.toggle('on',j===i)); lb.classList.add('open'); const on=strip.querySelector('.on'); if(on) on.scrollIntoView({inline:'center',block:'nearest'}); }
+    function step(d){ openLB((cur+d+SHOTS.length)%SHOTS.length); }
+    document.querySelectorAll('.ec-shot').forEach(el=>el.addEventListener('click',()=>openLB(+el.dataset.i)));
+    strip.addEventListener('click',e=>{ const im=e.target.closest('img'); if(im) openLB(+im.dataset.i); });
+    document.getElementById('lb-x').addEventListener('click',()=>lb.classList.remove('open'));
+    document.getElementById('lb-prev').addEventListener('click',()=>step(-1));
+    document.getElementById('lb-next').addEventListener('click',()=>step(1));
+    lb.addEventListener('click',e=>{ if(e.target===lb) lb.classList.remove('open'); });
+    document.addEventListener('keydown',e=>{ if(!lb.classList.contains('open'))return; if(e.key==='Escape')lb.classList.remove('open'); if(e.key==='ArrowLeft')step(-1); if(e.key==='ArrowRight')step(1); });
+  </script>
+</body>
+</html>

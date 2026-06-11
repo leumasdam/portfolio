@@ -1,47 +1,151 @@
 /* ===================== DATA ===================== */
 const CASES = [
   {
-    slug: "medfleet", title: "MedFleet", url: "Web medfleet.sk", live: "#",
-    accent: "#E0F7FA", shot: "a", type: "browser",
-    desc: "Placeholder — portfóliový projekt: rozhranie pre správu vozového parku v zdravotníctve. Od konceptu cez UI dizajn po nasadený web.",
-    obdobie: "2025 – 2026", rola: "UI / UX dizajn",
-    tags: ["ui/ux", "webdizajn", "figma", "deploy"],
-    kontext: "Placeholder. Sem doplníme zadanie — aký problém MedFleet riešil, pre koho a prečo si do toho išiel.",
-    vysledok: "Placeholder. Sem príde výsledok — nasadený web, čo sa naučil, čo by si spravil inak.",
+    slug: "medfleet", title: "MedFleet", url: "github.io/medfleet-dashboard",
+    live: "https://leumasdam.github.io/medfleet-dashboard/",
+    appUrl: "https://leumasdam.github.io/medfleet-dashboard/",
+    cover: "assets/medfleet/cover.png",
+    images: [
+      "assets/medfleet/devices.png", "assets/medfleet/detail.png",
+      "assets/medfleet/alerts.png", "assets/medfleet/maintenance.png",
+      "assets/medfleet/reports.png", "assets/medfleet/cover.png",
+    ],
+    accent: "#E0F7F4", shot: "a", type: "browser",
+    desc: "Dashboard na monitorovanie zobrazovacích zariadení (CT, MRI, RTG, ultrazvuk) v sieti nemocníc — stav fleetu, vyťaženie, alerty a plánovanie servisov. Dizajn systém inšpirovaný Siemens Healthineers: petrolejová, čistá, medical-grade.",
+    obdobie: "2026", rola: "UI / UX dizajn · frontend",
+    tags: ["UI/UX", "dashboard", "healthcare", "design system", "React"],
+    features: [
+      "Prehľad — KPI fleetu, vyťaženie, vyšetrenia podľa modality, aktívne alerty",
+      "Zariadenia — vyhľadávanie, filtre, triedenie + detail s históriou a servisom",
+      "Alerty — kvitovanie mení KPI aj odznaky naprieč celou aplikáciou",
+      "Údržba — 14-dňová os, plánovanie servisu cez formulár, posun stavov",
+      "Reporty — obdobia, uptime podľa zariadenia, vyšetrenia podľa pracoviska",
+      "Globálny výber pracoviska filtruje dáta na všetkých stránkach",
+    ],
+    tech: ["React 19", "TypeScript", "Vite", "Zustand", "React Router", "Tailwind v4", "Recharts"],
+    design: {
+      philosophy: "Medical-grade pokoj — petrolejová drží smer, oranžová znamená „pozri sa sem“.",
+      palette: [
+        { hex: "#009999", name: "petrol" }, { hex: "#0F3A3F", name: "ink" },
+        { hex: "#EC6602", name: "alert orange" }, { hex: "#F3F7F7", name: "canvas" },
+        { hex: "#0E8A66", name: "success" }, { hex: "#C93C34", name: "danger" },
+      ],
+      fonts: ["Hanken Grotesk — celá appka", "Tabulárne číslice v KPI a tabuľkách"],
+      note: "Tmavý petrolejový sidebar, biele karty s mäkkými tieňmi, zaoblené tvary, oranžová len pre stavy vyžadujúce pozornosť.",
+    },
+    zadanie: "Prevádzkový tím nemocničnej siete potrebuje na jednom mieste vidieť stav drahej zobrazovacej techniky: čo beží, čo je vyťažené, čo hlási chybu a kedy má servis. Portfóliová ukážka inšpirovaná kategóriou fleet-management nástrojov v zdravotníctve.",
+    riesenie: "Sedem prepojených obrazoviek so zdieľaným stavom — akcia na jednom mieste (kvitovanie alertu, dokončenie servisu) sa okamžite prejaví v KPI, odznakoch a grafoch všade inde. Vizuál stojí na vlastnom dizajn systéme inšpirovanom Siemens Healthineers: petrolejová paleta, Hanken Grotesk, tmavý sidebar a disciplinovaná oranžová len pre alerty.",
+    vysledok: "Plne interaktívne demo na ukážkových dátach. Vzniklo ako podpora prihlášky na pozíciu UI dizajnéra v healthcare segmente.",
+    metrics: [
+      { v: "7", l: "obrazoviek aplikácie" },
+      { v: "5", l: "modalít vo fleete (CT–mamograf)" },
+      { v: "Live", l: "interaktívne demo" },
+    ],
   },
   {
-    slug: "bratislava-3d", title: "Bratislava 3D", url: "leumasdam.github.io", live: "#",
-    accent: "#F4F3F6", shot: "b", type: "browser",
-    desc: "Placeholder — 3D model mesta z otvorených OSM dát. Ukážka dátovo-vizuálneho citu a práce s priestorom.",
-    obdobie: "2026", rola: "Dátová vizualizácia · 3D",
-    tags: ["3d", "osm dáta", "vizualizácia"],
-    kontext: "Placeholder. Odkiaľ dáta, ako vznikal model, načo to je.",
-    vysledok: "Placeholder. Nasadené na GitHub Pages, portfóliová ukážka pre MIB.",
+    slug: "bratislava-3d", title: "Bratislava 3D — Atlas kvality života", url: "github.io/bratislava-3d",
+    live: "https://leumasdam.github.io/bratislava-3d/",
+    appUrl: "https://leumasdam.github.io/bratislava-3d/",
+    cover: "assets/bratislava/cover.png", dark: true,
+    accent: "#101218", shot: "b", type: "browser",
+    desc: "Interaktívna 3D analýza „15-minútového mesta“ z otvorených dát: koľko zo 7 denných potrieb (škola, lekár, obchod, park…) máš pešo do 15 minút. Hexagónová mriežka nad celým mestom + 3D detail 10-tisíc budov v jadre.",
+    obdobie: "2026", rola: "Dátová vizualizácia · analýza · realizácia",
+    tags: ["dátová vizualizácia", "GIS", "OSM", "3D", "urbanizmus"],
+    features: [
+      "Hexagónová mriežka dostupnosti nad obytným územím — klik kdekoľvek = živý výpočet",
+      "Index kvality miesta — 6 urbanistických rozmerov s posuvníkmi váh, prepočet naživo",
+      "Plánovacie pieskovisko — postav školu či zastávku a uvidíš dopad na obyvateľov",
+      "Porovnanie 5 stredoeurópskych miest (Viedeň, Praha, Budapešť, BA, Brno)",
+      "AI asistent „Spýtaj sa mesta“ — otázka v slovenčine → odpoveď + zvýraznenie mapy",
+      "Živá vrstva kvality ovzdušia z verejných PM2,5 senzorov",
+    ],
+    tech: ["MapLibre GL JS", "OpenStreetMap / Overpass", "Python", "WorldPop", "GTFS", "Claude API", "GitHub Actions"],
+    design: {
+      philosophy: "Dáta majú tvrdiť niečo overiteľné — nie len pekne vyzerať.",
+      palette: [
+        { hex: "#37e0b0", name: "accent" }, { hex: "#1a1a2e", name: "ink" },
+        { hex: "#f4f3f6", name: "paper" }, { hex: "#6c5ce7", name: "indigo" },
+      ],
+      fonts: ["Systémový grotesk — UI", "Tabulárne číslice v paneloch"],
+      note: "Colorblind-safe farebná škála (magma/viridis), declutter podľa zoomu, ploché hexy s okrajmi pre čitateľnosť.",
+    },
+    zadanie: "Pekný 3D model mesta nestačí — chýbala mu téza. Tak sa projekt posunul na nástroj: je Bratislava 15-minútové mesto? Kde sa žije dobre a kde si bez auta nevybavíš ani základné veci?",
+    riesenie: "Z otvorených dát (OSM, WorldPop populácia, GTFS spoje MHD) vznikla celomestská analýza dostupnosti, kompozitný index kvality miesta a plánovací režim, ktorý vie navrhnúť najlepšie miesto pre novú škôlku či zastávku. Všetko beží v prehliadači, bez API kľúčov.",
+    vysledok: "Jadro mesta JE 15-minútové, ale celomestsky má všetkých 7 potrieb pešo len 58 % obytných oblastí a 24 % je autozávislých. V benchmarku 5 miest je BA štvrtá. Nasadené na GitHub Pages s týždenným auto-refreshom dát.",
+    metrics: [
+      { v: "58 %", l: "obytných oblastí má 6+ zo 7 potrieb" },
+      { v: "10 046", l: "budov v 3D detaile" },
+      { v: "5", l: "miest v benchmarku" },
+    ],
   },
   {
-    slug: "konfigurator", title: "Konfigurátor obrúčok", url: "goldstein.sk/konfigurator", live: "#",
+    slug: "konfigurator", title: "Konfigurátor obrúčok", url: "goldstein.sk/konfigurator",
+    live: "https://goldstein.sk/konfigurator",
+    appUrl: "https://goldstein.sk/konfigurator",
+    cover: "assets/konfigurator/cover.png",
     accent: "#D8F2E9", shot: "c", type: "browser",
-    desc: "Placeholder — 2D konfigurátor obrúčok s SVG náhľadom v reálnom čase.",
-    obdobie: "2025 – 2026", rola: "UI dizajn · realizácia",
-    tags: ["konfigurátor", "svg", "ui"],
-    kontext: "Placeholder. Vlastná alternatíva ku kúpenému SaaS riešeniu.",
-    vysledok: "Placeholder. Náhľad v reálnom čase, čaká na cenovú logiku.",
+    desc: "Vlastný 3D konfigurátor svadobných obrúčok pre goldstein.sk — kov, profil, povrch, kamene aj gravír v reálnom čase, s otáčateľným 3D náhľadom a živou orientačnou cenou. Postavené namiesto kupovaného SaaS riešenia.",
+    obdobie: "2026", rola: "UX · UI · 3D realizácia",
+    tags: ["3D", "konfigurátor", "three.js", "e-commerce", "UX"],
+    features: [
+      "Real-time 3D náhľad (three.js) — otáčanie myšou, kovy s reálnymi odleskami",
+      "12 kovov, 6 profilov, 7 povrchov, vzory, inlay (karbón, drevo, keramika)",
+      "Kamene s reálnym lomom svetla — 9 brúsov, 12 farieb, 10 typov osadenia",
+      "Pár jeho & jej — dve obrúčky v jednej konfigurácii",
+      "Šesťkrokový sprievodca: Kov → Tvar → Povrch → Kamene → Detaily → Zhrnutie",
+      "Živá orientačná cena + nezáväzný dopyt (uloženie do DB, e-mail predajni)",
+    ],
+    tech: ["Next.js 15", "three.js / R3F", "TypeScript", "Supabase", "Resend"],
+    design: {
+      philosophy: "Šperk si chceš obzrieť — náhľad je hviezda, UI sa drží vzadu.",
+      palette: [
+        { hex: "#D8F2E9", name: "accent" }, { hex: "#fff9f5", name: "surface" },
+        { hex: "#111420", name: "ink" }, { hex: "#c79a5b", name: "gold" },
+      ],
+      fonts: ["Cormorant Garamond — nadpisy", "Plus Jakarta Sans — UI"],
+      note: "Dizajn nadväzuje na editoriálny jazyk goldstein.sk; 3D scéna so štúdiovým HDRI osvetlením.",
+    },
+    zadanie: "Konkurencia používa kúpený SaaS konfigurátor s neprehľadným UX a mesačnými poplatkami. Goldstein chcel vlastný — prehľadnejší, vizuálne vo svojom jazyku a bez závislosti na treťom dodávateľovi.",
+    riesenie: "Parametrická 3D geometria obrúčky generovaná priamo z konfigurácie (profil, drážky, fazety, kamene) namiesto statických fotiek — milióny kombinácií bez jediného fotenia. Architektúra pripravená aj na reálne 3D modely z dielne (GLB).",
+    vysledok: "Nasadené na goldstein.sk/konfigurator aj vo svadobnej sekcii. Dopyty padajú do databázy a predajni chodí e-mail. Cenové sadzby za gram sú zatiaľ orientačné — finálne dopĺňa zlatník.",
+    metrics: [
+      { v: "milióny", l: "možných kombinácií" },
+      { v: "12", l: "kovov vrátane platiny a paládia" },
+      { v: "3D", l: "real-time náhľad, žiadne fotky" },
+    ],
   },
   {
-    slug: "dami", title: "Dami SEO dashboard", url: "Interný nástroj", live: "#",
-    accent: "#F5EFE0", shot: "d", type: "phone",
-    desc: "Placeholder — prehľadový dashboard SEO metrík pre klienta.",
-    obdobie: "2025 – 2026", rola: "UI dizajn",
-    tags: ["dashboard", "dáta", "ui"],
-    kontext: "Placeholder. Prehľad SEO metrík na jednom mieste.",
-    vysledok: "Placeholder. Beží na mock dátach, čaká na napojenie.",
+    slug: "dami", title: "Dami SEO dashboard", url: "github.io/dami-seo",
+    live: "https://leumasdam.github.io/dami-seo/dashboard.html",
+    appUrl: "https://leumasdam.github.io/dami-seo/dashboard.html",
+    cover: "assets/dami/cover.png",
+    accent: "#F5EFE0", shot: "d", type: "browser",
+    desc: "Automatizovaný týždenný SEO dashboard pre e-shop s pracovnými odevmi — Search Console, GA4 a PageSpeed dáta sa každý pondelok samé stiahnu, vyhodnotia a publikujú. Nula ručnej práce, prevádzka prakticky zadarmo.",
+    obdobie: "2026", rola: "Návrh · dátová pipeline · UI",
+    tags: ["SEO", "dashboard", "automatizácia", "Python", "dáta"],
+    features: [
+      "Quick wins — kľúčové slová na pozíciách 4–15, kde sa dá rýchlo vyrásť",
+      "CTR optimalizácia — stránky v top 3, ktoré klikajú pod benchmark",
+      "Falling pages — stránky s poklesom klikov týždeň/týždňu",
+      "Rising queries — nové dopyty, na ktoré sa oplatí napísať obsah",
+      "Core Web Vitals + site audit na jednom mieste",
+      "Beží samo: GitHub Actions cron každý pondelok ráno",
+    ],
+    tech: ["Python", "Search Console API", "GA4 API", "PageSpeed Insights", "GitHub Actions", "GitHub Pages"],
+    zadanie: "Malý e-shop nemá rozpočet na SEO agentúru ani drahé nástroje — ale potrebuje vedieť, čo na webe zlepšiť a či to funguje. Reporty sa ručne robiť nebudú, musia vznikať samé.",
+    riesenie: "Python pipeline stiahne dáta z Google API, rule-based analýza ich roztriedi do 7 akčných modulov (nie tabuľka čísel, ale „toto sprav“) a výsledný HTML dashboard sa automaticky publikuje. Celé to beží na free tieri GitHubu.",
+    vysledok: "Hotová kostra s dashboardom beží na mock dátach kalibrovaných pre SK workwear segment — po pridaní klientových prístupov (service account) sa prepne na ostré dáta bez zmeny kódu.",
+    metrics: [
+      { v: "7", l: "akčných modulov analýzy" },
+      { v: "1×", l: "týždenne, plne automaticky" },
+      { v: "~0 €", l: "mesačná prevádzka" },
+    ],
   },
   {
     slug: "goldstein-eshop", title: "Goldstein E-shop", url: "goldstein.sk",
     live: "https://goldstein.sk", accent: "#feece4",
-    video: "assets/goldstein/hero_gs.mp4",
+    gshero: true,
     cover: "assets/goldstein/screens/homepage.jpg",
-    cardCover: "assets/goldstein/hero-dark.jpg",
     images: [
       "assets/goldstein/hero-dark.jpg", "assets/goldstein/GS-1003-1.jpg",
       "assets/goldstein/GS-1002-1.jpg", "assets/goldstein/craft-bench.jpg",
@@ -115,9 +219,10 @@ const CASES = [
     ],
   },
   {
-    slug: "citylife", title: "CityLife", url: "leumasdam.github.io/citylife-app",
+    slug: "citylife", title: "CityLife", url: "github.io/citylife-app",
     href: "citylife.html",
     live: "https://leumasdam.github.io/citylife-app/", accent: "#0b1020", dark: true,
+    clsplash: true,
     cover: "assets/citylife/app-gallery.jpg",
     appUrl: "https://leumasdam.github.io/citylife-app/",
     caseImage: "assets/citylife/uxcase.jpg",
@@ -158,7 +263,7 @@ const CASES = [
     slug: "empiria", title: "express.EMPIRIA Parťák", url: "Mobilná appka · koncept",
     href: "empiria.html", live: "https://leumasdam.github.io/empiria-app/",
     accent: "#192B37", dark: true,
-    cardCover: "assets/empiria/heatpump.jpg",
+    esplash: true,
     desc: "Koncept appky pre montérov aj kúpeľne pod značkou express.EMPIRIA — skenuj diel, živý sklad, zákazky. Dve appky, jeden flywheel.",
     obdobie: "2026", rola: "UX · UI · prototyp",
     tags: ["ux/ui", "mobile app", "prototyp"],
@@ -212,6 +317,61 @@ function dashMock(big) {
 }
 
 function cardVisual(c) {
+  // express.EMPIRIA — živý splash (Bistro zoom-reveal ako v prototype)
+  if (c.esplash)
+    return `<div class="esplash-wrap"><div class="esplash">
+      <svg class="dash" viewBox="0 0 200 420" preserveAspectRatio="none" aria-hidden="true"><path d="M-10,150 C30,128 64,196 102,224 C142,252 172,210 212,182"/></svg>
+      <img class="lg" src="assets/empiria/logo-stacked.png" alt="express.EMPIRIA">
+      <img class="ms" src="assets/empiria/mascot.png" alt="">
+      <span class="bar"><i></i></span>
+      <img class="home" src="assets/empiria/screens/home.png" alt="" loading="lazy">
+      <span class="flash"></span>
+    </div></div>`;
+  // CityLife — 1:1 port splash screenu z citylife-app (deň→noc cyklus, lampa, loading);
+  // animácie sa spúšťajú na hover karty (animation-play-state v CSS)
+  if (c.clsplash)
+    return `<div class="csplash-wrap"><div class="clsplash" role="img" aria-label="CityLife — splash screen">
+      <span class="cl-night anim"></span>
+      <svg class="cl-lamp" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <radialGradient id="clGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffe6a6" stop-opacity=".95"/>
+            <stop offset="32%" stop-color="#ffc257" stop-opacity=".5"/>
+            <stop offset="100%" stop-color="#ffc257" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="clCone" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ffd98a" stop-opacity=".55"/>
+            <stop offset="100%" stop-color="#ffd98a" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <ellipse class="anim lampbit" cx="250" cy="208" rx="250" ry="250" fill="url(#clGlow)"/>
+        <polygon class="anim lampbit lampcone" points="241,206 261,206 360,640 150,640" fill="url(#clCone)"/>
+        <g stroke="#0a1340" stroke-width="7" fill="none" stroke-linecap="round">
+          <line x1="302" y1="844" x2="302" y2="248"/>
+          <path d="M302 248 Q302 198 256 196"/>
+        </g>
+        <rect x="288" y="826" width="28" height="18" rx="2" fill="#0a1340"/>
+        <path d="M243 195 L269 195 L264 221 L248 221 Z" fill="#0a1340"/>
+        <path class="anim lampbit" d="M247 199 L265 199 L261 218 L251 218 Z" fill="#ffe6a6"/>
+      </svg>
+      <span class="cl-ring anim"></span>
+      <div class="cl-center">
+        <img class="cl-logo anim" src="assets/citylife/brand-logo-white.png" alt="">
+        <span class="cl-tag">the city, scannable</span>
+      </div>
+      <div class="cl-loading">
+        <span class="cl-bar"><i class="anim"></i></span>
+        <span class="cl-cap">LOADING TONIGHT…</span>
+      </div>
+      <span class="cl-notch"></span>
+      <span class="cl-home"></span>
+    </div></div>`;
+  // Goldstein — laptop mockup; na hover priletí mandala z pravého okraja KARTY s jemným spinom
+  if (c.gshero)
+    return `<div class="shot shot--browser shot--img gshot2">
+      <img src="assets/goldstein/mockup.jpg" alt="goldstein.sk na notebooku" loading="lazy">
+    </div>
+    <img class="g-mandala2" src="assets/goldstein/mandala.svg" alt="" aria-hidden="true">`;
   if (c.video)
     return `<div class="shot shot--browser shot--img"><span class="shot__bar"><i></i><i></i><i></i></span><video src="${c.video}" autoplay muted loop playsinline poster="${c.cardCover || c.cover || ""}"></video></div>`;
   const cov = c.cardCover || c.cover;
@@ -222,6 +382,22 @@ function cardVisual(c) {
     return `<div class="shot shot--phone shot--${c.shot}"><span class="shot__label">${c.title}</span></div>`;
   const wide = c.type === "wide" ? " shot--wide" : "";
   return `<div class="shot shot--browser${wide} shot--${c.shot}"><span class="shot__bar"><i></i><i></i><i></i></span><span class="shot__label">${c.title}</span></div>`;
+}
+
+/* splash animácie (CityLife, Empiria): reštart od nuly pri každom hoveri.
+   Bez .play sú animácie vypnuté (statický stav); mouseenter triedu pridá → cyklus beží od 0 %. */
+function wireSplashHover() {
+  $$(".case-card").forEach((card) => {
+    const sp = card.querySelector(".clsplash, .esplash");
+    if (!sp) return;
+    if (window.matchMedia("(hover: none)").matches) { sp.classList.add("play"); return; }
+    card.addEventListener("mouseenter", () => {
+      sp.classList.remove("play");
+      void sp.offsetWidth; // reflow → ďalšie pridanie triedy reštartuje keyframy
+      sp.classList.add("play");
+    });
+    card.addEventListener("mouseleave", () => sp.classList.remove("play"));
+  });
 }
 
 /* fill the bento case cards */
@@ -528,6 +704,7 @@ function stepLB(d) { openLB(LB_INDEX + d); }
 document.addEventListener("DOMContentLoaded", () => {
   $("#year").textContent = new Date().getFullYear();
   renderCards();
+  wireSplashHover();
 
   // nav pills + logo
   $$("[data-view]").forEach((el) => {
@@ -548,11 +725,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // CV placeholders
-  $$("[data-cv]").forEach((el) => el.addEventListener("click", (e) => {
-    e.preventDefault();
-    alert("Sem pripojíme tvoje CV (PDF). Zatiaľ placeholder.");
-  }));
+  // CV download (PDF v assets — pri novej verzii stačí prepísať súbor)
+  $$("[data-cv]").forEach((el) => {
+    el.href = "assets/cv-samuel.pdf";
+    el.target = "_blank";
+    el.rel = "noopener";
+  });
 
   // screens board + lightbox
   $("#case-board").addEventListener("click", (e) => {

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="sk">
 <head>
   <meta charset="UTF-8" />
@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=19" />
 </head>
 <body>
   <!-- HEADER -->
@@ -84,19 +84,17 @@ Som <span class="hero__name">Samuel</span>, grafický dizajnér so smerom k UI/U
             </div>
           </a>
 
-          <a class="case-card" data-case="medfleet" style="grid-column:2; grid-row:1 / span 2; --case-accent:#E0F7FA;"></a>
-          <a class="case-card" data-case="bratislava-3d" style="grid-column:3; grid-row:1 / span 2; --case-accent:#F4F3F6;"></a>
+          <a class="case-card case-card--wide" data-case="medfleet" style="grid-column:2 / span 2; grid-row:1; --case-accent:#E0F2F0;"></a>
 
-          <div class="bento-stack" style="grid-column:1; grid-row:2 / span 2;">
-            <a class="case-card" data-case="konfigurator" style="--case-accent:#D8F2E9;"></a>
-            <a class="case-card case-card--portrait" data-case="dami" style="--case-accent:#F5EFE0;"></a>
-          </div>
+          <a class="case-card case-card--wide" data-case="citylife" style="grid-column:1 / span 2; grid-row:2; --case-accent:#0b1020;"></a>
+          <a class="case-card" data-case="konfigurator" style="grid-column:3; grid-row:2; --case-accent:#D8F2E9;"></a>
 
+          <a class="case-card" data-case="dami" style="grid-column:1; grid-row:3; --case-accent:#F5EFE0;"></a>
           <a class="case-card" data-case="goldstein-eshop" style="grid-column:2; grid-row:3; --case-accent:#feece4;"></a>
-          <a class="case-card" data-case="goldstein-inventory" style="grid-column:3; grid-row:3; --case-accent:#0d0f17;"></a>
+          <a class="case-card" data-case="empiria" style="grid-column:3; grid-row:3; --case-accent:#192B37;"></a>
 
-          <a class="case-card case-card--wide" data-case="citylife" style="grid-column:1 / span 3; grid-row:4; --case-accent:#0b1020;"></a>
-          <a class="case-card case-card--wide" data-case="empiria" style="grid-column:1 / span 3; grid-row:5; --case-accent:#192B37;"></a>
+          <a class="case-card case-card--wide" data-case="bratislava-3d" style="grid-column:1 / span 2; grid-row:4; --case-accent:#101218;"></a>
+          <a class="case-card" data-case="goldstein-inventory" style="grid-column:3; grid-row:4; --case-accent:#0d0f17;"></a>
         </div>
       </div>
     </section>
@@ -129,9 +127,9 @@ Som <span class="hero__name">Samuel</span>, grafický dizajnér so smerom k UI/U
         <section class="prose">
           <h2 class="section-heading">O mne</h2>
           <p>Začínal som pri grafike — typografia, kompozícia, vizuálna identita. Postupne ma to ťahalo k tomu, ako veci reálne fungujú v rukách používateľa, tak som pridal UI/UX. A keďže ma bavilo vidieť návrhy naživo, naučil som sa ich aj postaviť.</p>
-          <p>Dnes ten istý cyklus — od nápadu cez návrh po nasadený web — zvládam rýchlejšie vďaka AI nástrojom v dennom workflow. Vďaka tomu viem doručiť hotovú vec, nielen pekný náhľad. <em>(Placeholder text — doladíme spolu.)</em></p>
+          <p>Dnes ten istý cyklus — od nápadu cez návrh po nasadený web — zvládam rýchlejšie vďaka AI nástrojom v dennom workflow. Vďaka tomu viem doručiť hotovú vec, nielen pekný náhľad.</p>
           <ul class="facts">
-            <li><strong>3+</strong><span>nasadené projekty</span></li>
+            <li><strong>8</strong><span>nasadených projektov</span></li>
             <li><strong>Figma</strong><span>denný nástroj</span></li>
             <li><strong>HTML/CSS/JS</strong><span>viem to spustiť</span></li>
           </ul>
@@ -149,7 +147,7 @@ Som <span class="hero__name">Samuel</span>, grafický dizajnér so smerom k UI/U
           <div class="contact__socials">
             <a href="#">LinkedIn</a>
             <a href="#">Behance</a>
-            <a href="#">GitHub</a>
+            <a href="https://github.com/leumasdam" target="_blank" rel="noopener">GitHub</a>
           </div>
           <span class="contact__avail"><i></i> Otvorený na spoluprácu · Remote-first · Bratislava</span>
         </section>
@@ -319,6 +317,6 @@ Som <span class="hero__name">Samuel</span>, grafický dizajnér so smerom k UI/U
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=19"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="sk">
 <head>
   <meta charset="UTF-8" />
@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=4" />
   <style>
     /* ===== Empiria case — reference (litvanyi) form, scoped .ec ===== */
     :root{ --navy:#192B37; --red:#D7282E; --sage:#AFC0BC; --sage-d:#5E726C; }
@@ -80,7 +80,7 @@
     .ec-posters{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
     .ec-poster{ position:relative; border-radius:20px; overflow:hidden; aspect-ratio:4/3.1; box-shadow:0 18px 40px -22px rgba(0,0,0,.6); }
     .ec-poster img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
-    .ec-poster::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(25,43,55,.15),rgba(25,43,55,.88)); }
+    .ec-poster::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(25,43,55,0) 42%,rgba(25,43,55,.78)); }
     .ec-poster .bar{ position:absolute; top:13px; left:14px; display:flex; gap:5px; z-index:2; }
     .ec-poster .bar i{ width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.5); }
     .ec-poster .pt{ position:absolute; left:18px; right:18px; bottom:16px; z-index:2; color:#fff; }
@@ -89,10 +89,11 @@
     .ec-showcase__cap{ color:rgba(255,255,255,.6); font-size:13px; font-family:var(--font-mono); margin:0 0 16px 4px; }
 
     /* moodboard */
-    .ec-mood{ display:grid; grid-template-columns:1.2fr 1fr; grid-template-rows:auto auto; gap:12px; }
+    .ec-mood{ display:grid; grid-template-columns:1.2fr 1fr; grid-template-rows:auto auto auto; gap:12px; }
     .ec-mood .claim{ background:var(--navy); color:#fff; border-radius:16px; padding:20px; font-weight:800; font-size:18px; line-height:1.25; grid-row:span 2; display:flex; flex-direction:column; justify-content:space-between; }
     .ec-mood .claim small{ font-family:var(--font-mono); font-size:10px; color:#9DAAB1; font-weight:500; }
     .ec-mood img{ border-radius:16px; width:100%; height:100%; object-fit:cover; min-height:96px; }
+    .ec-mood img.wide{ grid-column:span 2; min-height:150px; max-height:190px; }
     .ec-mood .sw{ grid-column:span 2; display:flex; gap:8px; }
     .ec-mood .sw i{ flex:1; height:34px; border-radius:8px; }
 
@@ -142,24 +143,16 @@
     .ec-ds .card{ background:#161B20; border-radius:14px; padding:13px; display:flex; align-items:center; gap:11px; color:#fff; }
     .ec-ds .card img{ width:38px; height:38px; border-radius:10px; object-fit:cover; }
     .ec-ds .card b{ font-size:13px; } .ec-ds .card small{ font-size:11px; color:#8b97a0; display:block; }
+    .ec-ds .dashrow{ display:flex; align-items:center; gap:12px; }
+    .ec-ds .dashrow i{ flex:1; height:0; border-top:3px dashed #D7282E; border-radius:3px; }
+    .ec-ds .dashrow span{ font-family:var(--font-mono); font-size:10.5px; color:#7e8b94; white-space:nowrap; }
 
-    /* official brand manual */
-    @font-face{ font-family:'EmpiriaBrand'; src:url('assets/empiria/Empiria.ttf') format('truetype'); font-display:swap; }
-    .ec-bm{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:26px; }
-    .bm-card{ background:var(--bg-page); border:1px solid var(--border-strong); border-radius:18px; padding:22px; }
-    .bm-wordmark{ font-family:'EmpiriaBrand','Outfit',sans-serif; font-weight:700; font-size:36px; color:#ED1C24; letter-spacing:1px; line-height:1; }
-    .bm-label{ font-size:12px; color:var(--ink-soft); margin-top:16px; line-height:1.55; } .bm-label .dim{ color:var(--ink-muted); }
-    .bm-h{ font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.5px; color:var(--ink-muted); margin-bottom:15px; }
-    .bm-colors{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    .bm-colors div{ display:flex; flex-direction:column; gap:5px; } .bm-colors i{ height:40px; border-radius:9px; } .bm-colors b{ font-family:var(--font-mono); font-size:12px; } .bm-colors small{ font-family:var(--font-mono); font-size:10px; color:var(--ink-muted); }
-    .bm-pins{ display:flex; gap:12px; }
-    .bm-pins .pin{ display:flex; flex-direction:column; align-items:center; gap:9px; flex:1; }
-    .bm-pins .pn{ width:46px; height:46px; border-radius:50%; background:var(--c); display:grid; place-items:center; color:#fff; font-weight:900; font-size:21px; box-shadow:var(--shadow-card); }
-    .bm-pins small{ font-size:11px; font-weight:700; }
-    .bm-rules{ display:flex; flex-direction:column; gap:11px; }
-    .bm-rules div{ display:flex; align-items:center; gap:10px; font-size:12.5px; color:var(--ink-soft); }
-    .bm-rules .lg{ font-family:'EmpiriaBrand','Outfit',sans-serif; font-weight:700; font-size:13px; padding:5px 9px; border-radius:6px; letter-spacing:.3px; }
-    .bm-rules .no{ color:var(--ink-muted); }
+    /* official brand manual — reálne strany manuálu */
+    .ec-bm{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:26px; }
+    .bm-page{ margin:0; border:1px solid var(--border-strong); border-radius:14px; overflow:hidden; background:#fff; box-shadow:var(--shadow-card); }
+    .bm-page img{ width:100%; display:block; }
+    .bm-page--pad img{ padding:26px 20px; box-sizing:border-box; }
+    .bm-page figcaption{ font-family:var(--font-mono); font-size:11px; color:var(--ink-muted); padding:11px 15px; border-top:1px solid var(--line); }
     @media(max-width:880px){ .ec-bm{ grid-template-columns:1fr 1fr; } }
 
     /* TL;DR */
@@ -256,8 +249,9 @@
       </div>
       <div class="ec-mood">
         <div class="claim">Remeslo má svojho parťáka.<small>express.EMPIRIA · navy + červená</small></div>
-        <img src="assets/empiria/staff.jpg" alt="">
-        <img src="assets/empiria/mascot.png" alt="" style="background:var(--navy);padding:14px;object-fit:contain;filter:brightness(0) invert(1)">
+        <img src="assets/empiria/staff.jpg" alt="Predajca za pultom express.EMPIRIA">
+        <img src="assets/empiria/store-aisle.jpg" alt="Regály samoobslužnej predajne">
+        <img class="wide" src="assets/empiria/dron.jpg" alt="Areál Empiria z dronu — centrála Piešťany">
         <div class="sw"><i style="background:#192B37"></i><i style="background:#D7282E"></i><i style="background:#AFC0BC"></i><i style="background:#F1F4F6;border:1px solid var(--border-strong)"></i></div>
       </div>
     </section>
@@ -336,6 +330,7 @@
         <div class="row"><div class="aa">Aa<small>Antique Olive → Inter (web)</small></div><img src="assets/empiria/mascot.png" alt="" style="height:66px;filter:brightness(0) invert(1)"></div>
         <div class="card"><img src="assets/empiria/staff.jpg" alt=""><div><b>Tomáš · predajca</b><small>express.EMPIRIA Žilina</small></div></div>
         <div class="chiprow"><button class="b red">CTA</button><button class="b navy">Sekundárne</button><span class="pl">⚡ Level 4</span><span class="pl">● Skladom</span></div>
+        <div class="dashrow"><i></i><span>prerušovaná čiara · brand motív z manuálu</span><i></i></div>
       </div>
       <div>
         <h2 class="ec-h">Dizajnový systém</h2>
@@ -350,35 +345,12 @@
       <h2 class="ec-h" style="margin-top:10px">Postavené na reálnej značke, nie na výmysle</h2>
       <p class="ec-p" style="max-width:700px">Identita appky nestojí na vymyslenom bránde — vychádza priamo z oficiálneho EMPIRIA dizajn manuálu: PANTONE farby, firemný font, pin systém troch divízií a logo pravidlá.</p>
       <div class="ec-bm">
-        <div class="bm-card">
-          <div class="bm-wordmark">EMPIRIA</div>
-          <div class="bm-label">Firemný font: <b>Antique Olive Regular</b><br><span class="dim">web build appky: Inter (substitút)</span></div>
-        </div>
-        <div class="bm-card">
-          <div class="bm-h">Farby · PANTONE</div>
-          <div class="bm-colors">
-            <div><i style="background:#ED1C24"></i><b>185 C</b><small>237·28·36</small></div>
-            <div><i style="background:#42575C"></i><b>303 C</b><small>66·87·92</small></div>
-            <div><i style="background:#DFE8EA"></i><b>441 C</b><small>223·232·234</small></div>
-            <div><i style="background:#fff;border:1px solid var(--border-strong)"></i><b>000 C</b><small>biela</small></div>
-          </div>
-        </div>
-        <div class="bm-card">
-          <div class="bm-h">Pin systém · 3 divízie</div>
-          <div class="bm-pins">
-            <div class="pin"><span class="pn" style="--c:#ED1C24">E</span><small>veľkoobchod.</small></div>
-            <div class="pin"><span class="pn" style="--c:#42575C">E</span><small>express.</small></div>
-            <div class="pin"><span class="pn" style="--c:#DFE8EA;color:#42575C">E</span><small>kúpeľne.</small></div>
-          </div>
-        </div>
-        <div class="bm-card">
-          <div class="bm-h">Logo pravidlá</div>
-          <div class="bm-rules">
-            <div><span class="lg" style="background:#fff;color:#ED1C24;border:1px solid var(--border-strong)">EMPIRIA</span> červené na svetlom ✓</div>
-            <div><span class="lg" style="background:#ED1C24;color:#fff">EMPIRIA</span> biele na červenom ✓</div>
-            <div class="no"><span class="lg" style="background:#42575C;color:#ED1C24">EMPIRIA</span> antracit podklad ✗</div>
-          </div>
-        </div>
+        <figure class="bm-page"><img src="assets/empiria/manual/dm-farby.png" alt="Strana manuálu — PANTONE farby" loading="lazy"><figcaption>PANTONE 185 C · 303 C · 441 C · 000 C</figcaption></figure>
+        <figure class="bm-page"><img src="assets/empiria/manual/dm-piny.png" alt="Strana manuálu — pin systém troch divízií" loading="lazy"><figcaption>Piny EMPIRIA — 3 divízie</figcaption></figure>
+        <figure class="bm-page"><img src="assets/empiria/manual/dm-font.png" alt="Strana manuálu — firemný font Antique Olive" loading="lazy"><figcaption>Antique Olive Regular — firemný font</figcaption></figure>
+        <figure class="bm-page"><img src="assets/empiria/manual/dm-logo-pravidla.png" alt="Strana manuálu — pravidlá použitia loga" loading="lazy"><figcaption>Logo pravidlá + navádzacie tabule</figcaption></figure>
+        <figure class="bm-page"><img src="assets/empiria/manual/dm-srdce.png" alt="Strana manuálu — Srdce EMPIRIA z produktových ikon" loading="lazy"><figcaption>Srdce EMPIRIA — ikony kúrenia a sanity</figcaption></figure>
+        <figure class="bm-page bm-page--pad"><img src="assets/empiria/divisions.png" alt="Logá troch divízií — veľkoobchod, express, kúpeľne" loading="lazy"><figcaption>veľkoobchod. · express. · kúpeľne.</figcaption></figure>
       </div>
       <p class="ec-p" style="max-width:780px;margin-top:22px">Brand motívy z manuálu — <b>„E" roundel</b>, <b>„Srdce EMPIRIA"</b> (srdce poskladané z produktových ikon kúrenia a sanity), <b>prerušovaná čiara</b> a <b>maskot-inštalatér</b> — som premietol do hero momentov, navigácie a splash animácie appky. Navádzacie tabule v manuáli (červený podklad + biele logo + šípka) inšpirovali mapový/„sklad pri tebe" pattern.</p>
     </section>
@@ -388,8 +360,8 @@
       <p class="ec-showcase__cap">App 2 — Kúpeľne · pre investora</p>
       <div class="ec-posters">
         <div class="ec-poster"><span class="bar"><i></i><i></i><i></i></span><img src="assets/empiria/bathroom.jpg" alt=""><div class="pt"><small>NÁVRH</small><b>Navrhni si<br>kúpeľňu</b></div></div>
-        <div class="ec-poster"><span class="bar"><i></i><i></i><i></i></span><img src="assets/empiria/divisions.png" alt="" style="object-fit:contain;background:#fff"><div class="pt"><small>AR</small><b>Skús ju<br>v priestore</b></div></div>
-        <div class="ec-poster"><span class="bar"><i></i><i></i><i></i></span><img src="assets/empiria/staff.jpg" alt=""><div class="pt"><small>MARKETPLACE</small><b>Nájdi overeného<br>montéra</b></div></div>
+        <div class="ec-poster"><span class="bar"><i></i><i></i><i></i></span><img src="assets/empiria/screens/k-ar.png" alt="" style="object-position:top"><div class="pt"><small>AR</small><b>Skús ju<br>v priestore</b></div></div>
+        <div class="ec-poster"><span class="bar"><i></i><i></i><i></i></span><img src="assets/empiria/plumber.jpg" alt=""><div class="pt"><small>MARKETPLACE</small><b>Nájdi overeného<br>montéra</b></div></div>
       </div>
     </section>
 
